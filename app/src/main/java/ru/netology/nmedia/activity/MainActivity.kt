@@ -1,39 +1,31 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityMainBinding
-import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val post = Post(
-            id = 1,
-            author = "Нетология. Университет интернет-профессий будущего",
-            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
-            published = "21 мая в 18:36",
-            likeByMe = false
 
-        )
+        val viewModel by viewModels<PostViewModel>()
+        viewModel.data.observe(this) { post ->
+            with(binding) {
+                author.text = post.author
+                content.text = post.content
+                published.text = post.published
 
+                numberShare.text = showHowMany(post.countShare)
 
+                numberViews.text = showHowMany(post.countViews)
 
-        with(binding) {
-            author.text = post.author
-            content.text = post.content
-            published.text = post.published
+                numberLikes.text = showHowMany(post.likes)
 
-            numberShare.text = showHowMany(post.countShare)
-
-            numberViews.text = post.countViews.toString()
-
-            numberLikes.text = showHowMany(post.likes)
-
-            likes.setOnClickListener {
-                post.likeByMe = !post.likeByMe
                 likes.setImageResource(
                     if (post.likeByMe) {
                         R.drawable.ic_like_red_24
@@ -42,14 +34,17 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
                 if (post.likeByMe)
-                    post.likes++ else post.likes--
-                numberLikes.text = showHowMany(post.likes)
-            }
-            share.setOnClickListener {
-                post.countShare++
-                numberShare.text = showHowMany(post.countShare)
-            }
+                    numberLikes.text = showHowMany(post.likes)
 
+
+            }
+        }
+
+        binding.likes.setOnClickListener {
+            viewModel.like()
+        }
+        binding.share.setOnClickListener {
+            viewModel.share()
         }
 
     }
@@ -138,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         if (value5 >= 8 && value5 < 9) return result5 + million
         if (value5 >= 9 && value5 < 10) return result5 + million
         return number.toString()
+
     }
 
 }
