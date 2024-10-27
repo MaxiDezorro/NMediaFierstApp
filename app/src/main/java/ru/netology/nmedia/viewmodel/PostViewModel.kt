@@ -6,7 +6,7 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
 
-private val empty = Post(
+private val empty = Post( // data-обьект поста для залоннения, пустой пост
     id = 0L,
     author = "",
     content = "",
@@ -18,19 +18,20 @@ class PostViewModel : ViewModel() {
 
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
     val data = repository.getAll()
-    val edited = MutableLiveData(empty)
+    val edited = MutableLiveData(empty) // хранит текущий пост который добавляем или редактируем
 
-    fun removeById(id: Long) = repository.removeById(id)
-    fun like(id: Long) = repository.like(id)
-    fun share(id: Long) = repository.share(id)
-    fun applyChangesAndSave(newText: String) {
-        edited.value?.let {
-            val text = newText.trim()
+    fun removeById(id: Long) = repository.removeById(id) // удалить
+    fun like(id: Long) = repository.like(id) // лайкнуть
+    fun share(id: Long) = repository.share(id) // поделиться
+    fun applyChangesAndSave(newText: String) { // метод изменения и сохранения
+        edited.value?.let { // берем значение из edited
+            val text = newText.trim() // trim() уберает пробелы с начала и конца строки
             if (newText != it.content) {
-                repository.save(it.copy(content = text))
-            }
+                repository.save(it.copy(content = text)) /* заменяем у текушего поста контент на новый текст
+                и отправляем в репозиторий  на сохранение */
+             }
         }
-        edited.value = empty
+        edited.value = empty // записываем стандартное значение пустого поста (сбрасываем добавление  )
     }
     fun edit(post: Post) {
         edited.value = post

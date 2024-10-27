@@ -15,6 +15,8 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/toolsTop"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/card_post" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -22,7 +24,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="content, savePost"
+        app:constraint_referenced_ids="editImage, editClose, editMessage" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/editGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="editImage,editClose,editMessage,editMessageContent" />
+
+    <ImageView
+        android:id="@+id/editImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/indent_16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/image_edit"
+        android:src="@drawable/ic_baseline_edit_48"
+        app:layout_constraintBottom_toTopOf="@id/content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolsTop" />
+
+    <ImageButton
+        android:id="@+id/editClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/close_edit"
+        android:paddingTop="@dimen/indent_16dp"
+        android:paddingEnd="@dimen/indent_16dp"
+        android:src="@drawable/ic_baseline_close_48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolsTop"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/editMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/indent_16dp"
+        android:text="@string/edit_message"
+        app:layout_constraintEnd_toStartOf="@id/editClose"
+        app:layout_constraintStart_toEndOf="@id/editImage"
+        app:layout_constraintTop_toTopOf="@id/toolsTop"
+
+        />
+
+    <TextView
+        android:id="@+id/editMessageContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/indent_16dp"
+        android:layout_marginEnd="@dimen/indent_16dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/content"
+        app:layout_constraintEnd_toEndOf="@id/editMessage"
+        app:layout_constraintEnd_toStartOf="@id/editClose"
+        app:layout_constraintStart_toEndOf="@id/editImage"
+        app:layout_constraintTop_toBottomOf="@id/editMessage"
+        tools:text="Текст поста для редактирования"
 
         />
 
@@ -38,19 +98,22 @@
         android:padding="@dimen/indent_16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/savePost"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolsTop" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/savePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indent_16dp"
-        android:layout_marginEnd="@dimen/indent_16dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/description_save_post_button"
+        android:paddingEnd="@dimen/indent_16dp"
+        android:paddingBottom="@dimen/indent_16dp"
         android:src="@drawable/ic_baseline_save_48"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/content"
+        app:layout_constraintVertical_bias="0.2"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

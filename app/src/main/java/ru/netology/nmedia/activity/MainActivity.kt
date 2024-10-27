@@ -13,6 +13,7 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodel.PostViewModel
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,32 +44,48 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this) { posts ->
 //            adapter.list = posts
             val newPost = posts.size > adapter.currentList.size && adapter.currentList.isNotEmpty()
+            /* сравниваем размеры списка и проверяыем что старый список не пуст */
             adapter.submitList(posts) {
-                if (newPost) {
-                    binding.list.smoothScrollToPosition(0)
+                if (newPost) { // скролинг происходит только если добавляем новый пост
+                    binding.list.smoothScrollToPosition(0) // плавный скролинг на позицию по индексу
+                    // в момент завершения добавления элемента
                 }
             }
         }
 
-        viewModel.edited.observe(this) {
+        viewModel.edited.observe(this) { it ->
             if (it.id != 0L) {
+                binding.editGroup?.visibility = View.VISIBLE // задаем видимость группе
                 binding.content?.setText(it.content)
                 binding.content?.focusAndShowKeyboard()
-
+                binding.editMessageContent?.text = it.content
+                binding.editClose?.setOnClickListener {
+                    // проанализировать последнее добавление
+//                    binding.content
+                    binding.editGroup?.visibility = View.GONE
+                    binding.content?.setText("")
+//                   binding.content?.clearFocus() // я б еще убирал фокус и клавиатуру
+//                    AndroidUtils.hideKeyboard(binding.editClose)
+                return@setOnClickListener
+                }
             }
         }
 
         binding.savePost?.setOnClickListener {
-            val text = binding.content?.text.toString()
-            if (text.isBlank()) {
-                Toast.makeText(this@MainActivity, R.string.error_empty_content, Toast.LENGTH_LONG)
+           binding.editGroup?.visibility = View.GONE
+            val text = binding.content?.text.toString() // приводит текст к стрингу
+            if (text.isBlank()) { // проверяем текст на пустоту
+                Toast.makeText( // Toast - специальное всплывающее сообщение
+                    this@MainActivity, // задаем контекст в котором отображется - mainActivity
+                    R.string.error_empty_content, // текст всплывашки(стринг из ресурсов)
+                    Toast.LENGTH_LONG) // константа - продолжительность показа
                     .show()
-                return@setOnClickListener
+                return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
             }
-            viewModel.applyChangesAndSave(text)
-            binding.content?.setText("")
-            binding.content?.clearFocus()
-            AndroidUtils.hideKeyboard(it)
+            viewModel.applyChangesAndSave(text) // вызываем метод именения и сохранения текста
+            binding.content?.setText("") // устанавливаем пустое поле ввода, после добавления поста
+            binding.content?.clearFocus() // сбрасываем фокус с элемента
+            AndroidUtils.hideKeyboard(it) // скрыть клавиатуру (передаем вью)
         }
 
     }

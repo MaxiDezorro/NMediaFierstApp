@@ -79,6 +79,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun removeById(id: Long) {
+        /* новый список в который элемент с указанным id не будеь входить
+        * необходима из-за работы Diffutil нужно подавать два разных списка, чтоб были разные ссылки */
         posts = posts.filter { it.id != id }
         data.value = posts
     }
@@ -90,7 +92,6 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 likes = if (it.likeByMe) it.likes - 1 else it.likes + 1
             )
         }
-
 
         data.value = posts
     }
@@ -104,7 +105,9 @@ class PostRepositoryInMemoryImpl : PostRepository {
     }
 
     override fun save(post: Post) {
-        posts = if (post.id == 0L) {
+        posts = if (post.id == 0L) { /* если id поста = 0 то это новый пост
+        Чтоб добавить пост в верх, делаем список из 1-го поста и к нему добавляем старый список
+         */
             listOf(post.copy(id = nextId++)) + posts
         } else {
             posts.map { if (it.id != post.id) it else it.copy(content = post.content) }
