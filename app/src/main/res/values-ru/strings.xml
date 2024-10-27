@@ -16,4 +16,5 @@
     <string name="description_edit_button">кнопка редактировать</string>
     <string name="image_edit">знак редактирования</string>
     <string name="close_edit">кнопка отмены редактирования</string>
+    <string name="edit_message">редактипруйте сообщение</string>
 </resources>

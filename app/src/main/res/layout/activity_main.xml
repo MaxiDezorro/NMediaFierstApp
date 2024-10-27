@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/indent_16dp"
         android:text="@string/edit_message"
+        android:contentDescription="@string/edit_message"
         app:layout_constraintEnd_toStartOf="@id/editClose"
         app:layout_constraintStart_toEndOf="@id/editImage"
         app:layout_constraintTop_toTopOf="@id/toolsTop"
