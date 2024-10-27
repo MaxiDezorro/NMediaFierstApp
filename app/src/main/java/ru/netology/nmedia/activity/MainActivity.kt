@@ -13,7 +13,6 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodel.PostViewModel
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,32 +52,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.edited.observe(this) { it ->
+        viewModel.edited.observe(this) { it -> // подписываемся на лайфдату
             if (it.id != 0L) {
                 binding.editGroup?.visibility = View.VISIBLE // задаем видимость группе
-                binding.content?.setText(it.content)
-                binding.content?.focusAndShowKeyboard()
-                binding.editMessageContent?.text = it.content
-                binding.editClose?.setOnClickListener {
+                binding.content?.setText(it.content) // устанавливаем текст поста в поле ввода
+                binding.content?.focusAndShowKeyboard() // показ клавиатуры и фокус в поле ввода
+                binding.editMessageContent?.text = it.content // отображаем текст редактируемого поста задаем
+                binding.editClose?.setOnClickListener { // устанавливаем слушателя на кнопку отмены редактирования
                     // проанализировать последнее добавление
-//                    binding.content
-                    binding.editGroup?.visibility = View.GONE
-                    binding.content?.setText("")
-//                   binding.content?.clearFocus() // я б еще убирал фокус и клавиатуру
+                    binding.editGroup?.visibility = View.GONE // скрываем группу
+//                    binding.content?.clearFocus() // я б убирал фокус и клавиатуру
 //                    AndroidUtils.hideKeyboard(binding.editClose)
-                return@setOnClickListener
+                    val text = binding.content?.text.toString() // приводит текст к стрингу
+                    viewModel.applyChangesAndSave(text)
+                    binding.content?.setText("") // устанавливаем пустой текст в поле ввода
+
                 }
             }
+
         }
 
         binding.savePost?.setOnClickListener {
-           binding.editGroup?.visibility = View.GONE
+            binding.editGroup?.visibility = View.GONE
             val text = binding.content?.text.toString() // приводит текст к стрингу
             if (text.isBlank()) { // проверяем текст на пустоту
                 Toast.makeText( // Toast - специальное всплывающее сообщение
                     this@MainActivity, // задаем контекст в котором отображется - mainActivity
                     R.string.error_empty_content, // текст всплывашки(стринг из ресурсов)
-                    Toast.LENGTH_LONG) // константа - продолжительность показа
+                    Toast.LENGTH_LONG
+                ) // константа - продолжительность показа
                     .show()
                 return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
             }

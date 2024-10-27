@@ -103,15 +103,19 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
         data.value = posts
     }
-
+/* делаем новый список постов, если id = 0 то к новому списку добавляем старый,
+если id != 0, то перезаписываем исходные посты с не совпавщим id в новый список и записываем
+ измененную копию поста с совпавщим id  */
     override fun save(post: Post) {
         posts = if (post.id == 0L) { /* если id поста = 0 то это новый пост
         Чтоб добавить пост в верх, делаем список из 1-го поста и к нему добавляем старый список
          */
             listOf(post.copy(id = nextId++)) + posts
         } else {
+            // если id не равен id поста, то возращаем исходный пост, если равен то заменяем контент через copy
             posts.map { if (it.id != post.id) it else it.copy(content = post.content) }
+            // map формирует новую коллекцию элементов, для каждого элемента вызывает выражение которое в нее передали
         }
-        data.value = posts
+        data.value = posts // сохраняем список в значение MutableLiveData
     }
 }

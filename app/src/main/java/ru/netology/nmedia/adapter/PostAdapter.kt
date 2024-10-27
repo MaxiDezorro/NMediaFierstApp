@@ -87,7 +87,10 @@ class PostViewHolder(
             likes.setOnClickListener { onInteractionListener.onLike(post) }
             share.setOnClickListener { onInteractionListener.onShare(post) }
             menu.setOnClickListener { // устанавливаем обработчик на кнопку menu
-                PopupMenu(it.context, it).apply { // попап - всплывающее меню  2 параметра(контекст, и вью рядом с которым отображать всплывающее меню)
+                PopupMenu(
+                    it.context,
+                    it
+                ).apply { // попап - всплывающее меню  2 параметра(контекст, и вью рядом с которым отображать всплывающее меню)
                     inflate(R.menu.menu_post) // через метод inflate загружаем разметку нашего меню
                     setOnMenuItemClickListener { item -> // установливаем один обработчик нажатия на все пункты меню
                         when (item.itemId) { // обрабатываем по идентификатору к нужный пункт меню
@@ -100,6 +103,7 @@ class PostViewHolder(
                                 onInteractionListener.onEdit(post)
                                 true
                             }
+
                             else -> false
 
                         }
