@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
                 binding.editGroup?.visibility = View.VISIBLE // задаем видимость группе
                 binding.content?.setText(it.content) // устанавливаем текст поста в поле ввода
                 binding.content?.focusAndShowKeyboard() // показ клавиатуры и фокус в поле ввода
-                binding.editMessageContent?.text = it.content // отображаем текст редактируемого поста задаем
+                binding.editMessageContent?.text =
+                    it.content // отображаем текст редактируемого поста задаем
                 binding.editClose?.setOnClickListener { // устанавливаем слушателя на кнопку отмены редактирования
                     // проанализировать последнее добавление
                     binding.editGroup?.visibility = View.GONE // скрываем группу

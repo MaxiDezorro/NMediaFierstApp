@@ -77,13 +77,16 @@ class PostViewHolder(
             numberShare.text = showHowManyIntToString(post.countShare)
             numberViews.text = showHowManyIntToString(post.countViews)
 
-            likes.setImageResource(
-                if (post.likeByMe) {
-                    R.drawable.ic_like_red_24
-                } else {
-                    R.drawable.ic_like_24
-                }
-            )
+//            likes.setImageResource(  // likes теперь не imageButton
+//                if (post.likeByMe) {
+//                    R.drawable.ic_like_red_24
+//                } else {
+//                    R.drawable.ic_like_24
+//                }
+//            )
+            likes.isChecked = post.likeByMe
+            likes.text = showHowManyIntToString(post.likes)
+
             likes.setOnClickListener { onInteractionListener.onLike(post) }
             share.setOnClickListener { onInteractionListener.onShare(post) }
             menu.setOnClickListener { // устанавливаем обработчик на кнопку menu

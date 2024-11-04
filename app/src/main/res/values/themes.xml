@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.NMedia" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.NMedia" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/orange_color_primary</item>
+        <item name="colorPrimaryVariant">@color/orange_color_primary_variant</item>
+        <item name="colorSecondary">@color/blue_color_secondary</item>
+        <item name="colorSecondaryVariant">@color/blue_color_secondary_variant</item>
+        <item name="colorBackgroundFloating">@color/white</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
