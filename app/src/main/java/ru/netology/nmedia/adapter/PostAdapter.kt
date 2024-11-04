@@ -73,8 +73,8 @@ class PostViewHolder(
             content.text = post.content
             published.text = post.published
 
-            numberLikes.text = showHowManyIntToString(post.likes)
-            numberShare.text = showHowManyIntToString(post.countShare)
+//            numberLikes.text = showHowManyIntToString(post.likes)
+//            numberShare.text = showHowManyIntToString(post.countShare)
             numberViews.text = showHowManyIntToString(post.countViews)
 
 //            likes.setImageResource(  // likes теперь не imageButton
@@ -86,6 +86,7 @@ class PostViewHolder(
 //            )
             likes.isChecked = post.likeByMe
             likes.text = showHowManyIntToString(post.likes)
+            share.text = showHowManyIntToString(post.countShare)
 
             likes.setOnClickListener { onInteractionListener.onLike(post) }
             share.setOnClickListener { onInteractionListener.onShare(post) }
