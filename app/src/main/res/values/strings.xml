@@ -13,8 +13,9 @@
     <string name="error_empty_content">Content can not be empty</string>
     <string name="menu_edit">Edit</string>
     <string name="description_edit_button">Edit post button</string>
-    <string name="image_edit" >image edit</string>
+    <string name="image_edit">image edit</string>
     <string name="close_edit">button close edit</string>
     <string name="edit_message">Edit message</string>
     <string name="count_views" translatable="false">456</string>
+    <string name="shooser_share_post">Share</string>
 </resources>

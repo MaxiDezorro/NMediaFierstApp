@@ -17,4 +17,5 @@
     <string name="image_edit">знак редактирования</string>
     <string name="close_edit">кнопка отмены редактирования</string>
     <string name="edit_message">редактипруйте сообщение</string>
+    <string name="shooser_share_post">Поделиться</string>
 </resources>

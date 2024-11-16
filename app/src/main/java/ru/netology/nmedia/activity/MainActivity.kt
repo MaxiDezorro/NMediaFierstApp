@@ -1,5 +1,6 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,15 @@ class MainActivity : AppCompatActivity() {
 
             override fun onShare(post: Post) {
                 viewModel.share(post.id)
+                val intent = Intent().apply {  // создаем интент
+                    action = Intent.ACTION_SEND // создаем action- на отправку(send)
+                    putExtra(Intent.EXTRA_TEXT, post.content) // кладем в интент
+                    // (ключ для передаваемых данных(EXTRA_TEXT) и данные(контент поста))
+                    type = "text/plain" // тип передаваемых данных TODO лучше выносить в константу
+                }    //.run(::startActivity) // todo можно ссылкой на стартактивити
+                val shareIntent = Intent.createChooser(intent, getString(R.string.shooser_share_post))
+                // вид нижнего меню куда передаем (интент и стринг(сообщение в меню(название)) )
+                startActivity(shareIntent)
             }
 
             override fun onRemove(post: Post) {
