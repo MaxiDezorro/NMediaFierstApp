@@ -73,8 +73,8 @@ class MainActivity : AppCompatActivity() {
                     // проанализировать последнее добавление
                     binding.editGroup?.visibility = View.GONE // скрываем группу
 //                    binding.content?.clearFocus() // я б убирал фокус и клавиатуру
-//                    AndroidUtils.hideKeyboard(binding.editClose)
-                    val text = binding.content?.text.toString() // приводит текст к стрингу
+                    AndroidUtils.hideKeyboard(binding.editClose)
+                    val text = binding.editMessageContent?.text.toString() // приводит текст к стрингу
                     viewModel.applyChangesAndSave(text)
                     binding.content?.setText("") // устанавливаем пустой текст в поле ввода
 
