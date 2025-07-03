@@ -90,8 +90,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText( // Toast - специальное всплывающее сообщение
                     this@MainActivity, // задаем контекст в котором отображется - mainActivity
                     R.string.error_empty_content, // текст всплывашки(стринг из ресурсов)
-                    Toast.LENGTH_LONG
-                ) // константа - продолжительность показа
+                    Toast.LENGTH_LONG // константа - продолжительность показа
+                )
                     .show()
                 return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
             }
