@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val viewModel by viewModels<PostViewModel>()
+
         val adapter = PostAdapter(object : onInteractionListener {
             override fun onLike(post: Post) {
                 viewModel.like(post.id)
@@ -49,9 +50,11 @@ class MainActivity : AppCompatActivity() {
                 viewModel.edit(post)
             }
         })
+
         binding.list.adapter = adapter
+
         viewModel.data.observe(this) { posts ->
-//            adapter.list = posts
+
             val newPost = posts.size > adapter.currentList.size && adapter.currentList.isNotEmpty()
             /* сравниваем размеры списка и проверяыем что старый список не пуст */
             adapter.submitList(posts) {
@@ -67,15 +70,14 @@ class MainActivity : AppCompatActivity() {
                 binding.editGroup?.visibility = View.VISIBLE // задаем видимость группе
                 binding.content?.setText(it.content) // устанавливаем текст поста в поле ввода
                 binding.content?.focusAndShowKeyboard() // показ клавиатуры и фокус в поле ввода
-                binding.editMessageContent?.text =
-                    it.content // отображаем текст редактируемого поста задаем
+                binding.editMessageContent?.text = it.content // отображаем текст редактируемого поста задаем
                 binding.editClose?.setOnClickListener { // устанавливаем слушателя на кнопку отмены редактирования
                     // проанализировать последнее добавление
                     binding.editGroup?.visibility = View.GONE // скрываем группу
 //                    binding.content?.clearFocus() // я б убирал фокус и клавиатуру
-                    AndroidUtils.hideKeyboard(binding.editClose)
-                    val text = binding.editMessageContent?.text.toString() // приводит текст к стрингу
-                    viewModel.applyChangesAndSave(text)
+//                    AndroidUtils.hideKeyboard(binding.editClose)
+//                    val text = binding.editMessageContent?.text.toString() // приводит текст к стрингу
+                    viewModel.applyChangesAndSave(binding.editMessageContent?.text.toString())
                     binding.content?.setText("") // устанавливаем пустой текст в поле ввода
 
                 }
@@ -91,8 +93,7 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity, // задаем контекст в котором отображется - mainActivity
                     R.string.error_empty_content, // текст всплывашки(стринг из ресурсов)
                     Toast.LENGTH_LONG // константа - продолжительность показа
-                )
-                    .show()
+                ).show()
                 return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
             }
             viewModel.applyChangesAndSave(text) // вызываем метод именения и сохранения текста
